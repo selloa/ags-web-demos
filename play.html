@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AGS Web Games</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, sans-serif; }
+    header {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1rem;
+      background: #1a1a2e;
+      color: #eee;
+      font-size: 0.95rem;
+    }
+    header a { color: #7eb8ff; text-decoration: none; }
+    header a:hover { text-decoration: underline; }
+    #game-title { font-weight: 600; }
+    iframe {
+      display: block;
+      width: 100%;
+      height: calc(100vh - 40px);
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">&larr; All games</a>
+    <span id="game-title"></span>
+  </header>
+  <iframe id="game-frame" allow="fullscreen" title="Game"></iframe>
+  <script>
+    function isValidGameId(id) {
+      if (!id || typeof id !== 'string') return false;
+      if (id.includes('..') || id.includes('/') || id.includes('\\')) return false;
+      return /^[^./\\]+$/.test(id);
+    }
+
+    function redirectHome() {
+      window.location.replace('index.html');
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const game = params.get('game');
+
+    if (!isValidGameId(game)) {
+      redirectHome();
+    } else {
+      document.getElementById('game-title').textContent = game;
+      document.title = game + ' - AGS Web Games';
+
+      fetch('games.json')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (list) {
+          if (Array.isArray(list) && !list.includes(game)) {
+            redirectHome();
+            return;
+          }
+          document.getElementById('game-frame').src =
+            encodeURIComponent(game) + '/index.html';
+        })
+        .catch(function () {
+          document.getElementById('game-frame').src =
+            encodeURIComponent(game) + '/index.html';
+        });
+    }
+  </script>
+</body>
+</html>
