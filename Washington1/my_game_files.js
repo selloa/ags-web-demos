@@ -1,0 +1,1 @@
+var gamefiles = ['Empty Game.ags', 'acsetup.cfg'];
