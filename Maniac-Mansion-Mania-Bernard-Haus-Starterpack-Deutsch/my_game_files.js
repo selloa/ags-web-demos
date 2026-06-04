@@ -1,0 +1,1 @@
+var gamefiles = ['Bernard-Test.ags', 'acsetup.cfg'];

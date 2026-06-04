@@ -1,1 +1,0 @@
-var gamefiles = ['2001-11.ags', 'acsetup.cfg'];
