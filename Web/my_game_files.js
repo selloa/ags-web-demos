@@ -1,0 +1,1 @@
+var gamefiles = ['Joyce News 01-26.ags', 'acsetup.cfg'];
